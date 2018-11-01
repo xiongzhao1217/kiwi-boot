@@ -38,6 +38,17 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<!-- 代码生成工具 -->
+		<dependency>
+			<groupId>com.kiwiframework</groupId>
+			<artifactId>kiwi-code-generator</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- 快速开发基类 -->
+		<dependency>
+			<groupId>com.kiwiframework</groupId>
+			<artifactId>kiwi-easy-coding</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

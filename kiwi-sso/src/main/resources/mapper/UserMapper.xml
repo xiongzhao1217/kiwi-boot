@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwiboot.kiwisso.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.kiwiboot.kiwisso.model.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="passwd_salt" jdbcType="VARCHAR" property="passwdSalt" />
+    <result column="login_fail_counts" jdbcType="INTEGER" property="loginFailCounts" />
+    <result column="sex" jdbcType="SMALLINT" property="sex" />
+    <result column="passwd" jdbcType="VARCHAR" property="passwd" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    <!-- WARNING - @mbg.generated -->
+    kiwi_user.id, kiwi_user.username, kiwi_user.nick_name, kiwi_user.passwd_salt, kiwi_user.login_fail_counts, kiwi_user.sex, kiwi_user.passwd, kiwi_user.telephone, kiwi_user.email, kiwi_user.create_time, kiwi_user.update_time
+  </sql>
+  
+</mapper>

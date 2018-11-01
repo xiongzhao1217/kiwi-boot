@@ -38,27 +38,42 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring.boot.version>2.0.6.RELEASE</spring.boot.version>
+        <kiwiframework.version>1.0-SNAPSHOT</kiwiframework.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- spring boot 依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring.boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-devtools</artifactId>
-                <version>${spring.boot.version}</version>
-                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring.boot.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <!-- 热部署 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <version>${spring.boot.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!-- 代码生成工具 -->
+            <dependency>
+                <groupId>com.kiwiframework</groupId>
+                <artifactId>kiwi-code-generator</artifactId>
+                <version>${kiwiframework.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- 快速开发基类 -->
+            <dependency>
+                <groupId>com.kiwiframework</groupId>
+                <artifactId>kiwi-easy-coding</artifactId>
+                <version>${kiwiframework.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
