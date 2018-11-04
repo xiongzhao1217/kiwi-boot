@@ -1,6 +1,6 @@
 package com.kiwiboot.kiwisso.configurer;
 
-import com.kiwiframework.easycoding.exception.BizException;
+import com.kiwiframework.core.exception.AppException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +48,7 @@ public class DateConverterConfigurer implements Converter<String, Date> {
         }else if(dateStr.matches("^\\d{4}-\\d{1,2}-\\d{1,2} {1}\\d{1,2}:\\d{1,2}:\\d{1,2}$")){
             return parseDate(dateStr, DATE_FORMATS.get(3));
         }else {
-            throw new BizException(dateStr+"无法转换为Date类型");
+            throw new AppException(dateStr+"无法转换为Date类型");
         }
     }
 

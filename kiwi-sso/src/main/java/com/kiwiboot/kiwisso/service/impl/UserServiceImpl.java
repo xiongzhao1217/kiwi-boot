@@ -3,6 +3,12 @@ package com.kiwiboot.kiwisso.service.impl;
 import com.kiwiboot.kiwisso.dao.UserMapper;
 import com.kiwiboot.kiwisso.model.User;
 import com.kiwiboot.kiwisso.service.UserService;
+import com.kiwiboot.kiwisso.utils.JwtUtils;
+import com.kiwiframework.core.enums.ResultCode;
+import com.kiwiframework.core.exception.AppException;
+import com.kiwiframework.core.utils.Checker;
+import com.kiwiframework.core.utils.encryption.MD5Helper;
+import com.kiwiframework.easycoding.api.Result;
 import com.kiwiframework.easycoding.base.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,4 +23,19 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     @Resource
     private UserMapper userMapper;
 
+    @Override
+    public String doLogin(User loginUser) {
+        Checker.notBlank(loginUser.getTelephone(), "手机号不能为空");
+        Checker.notBlank(loginUser.getPasswd(), "密码不能为空");
+        User user = selectBy("telephone", loginUser.getTelephone());
+        if (user == null) {
+            throw new AppException(ResultCode.FAIL, "账号或密码错误");
+        }
+        // 校验密码
+//        if (!user.getPasswd().equals(MD5Helper.getMD5Str(loginUser.getPasswd() + user.getPasswdSalt()))) {
+//            throw new AppException(ResultCode.FAIL, "账号或密码错误");
+//        }
+        // 创建jwt
+        return JwtUtils.createJWT(user);
+    }
 }

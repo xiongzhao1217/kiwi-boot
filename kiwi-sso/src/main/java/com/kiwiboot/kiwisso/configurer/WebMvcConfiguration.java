@@ -5,10 +5,9 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.kiwiframework.easycoding.api.Result;
-import com.kiwiframework.easycoding.api.ResultCode;
-import com.kiwiframework.easycoding.exception.BizException;
+import com.kiwiframework.core.enums.ResultCode;
+import com.kiwiframework.core.exception.AppException;
 //import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.ServletException;
@@ -30,8 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -39,9 +36,9 @@ import java.util.List;
  * @author xz
  */
 @Configuration
-public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
+public class WebMvcConfiguration implements WebMvcConfigurer {
 
-    private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
+    private final Logger logger = LoggerFactory.getLogger(WebMvcConfiguration.class);
 
     /**
      * 当前环境变量
@@ -97,7 +94,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
                     logger.info(e.getMessage());
                 }
                 //业务失败的异常，如“账号或密码错误”
-                else if (e instanceof BizException) {
+                else if (e instanceof AppException) {
                     result.setCode(ResultCode.FAIL).setMessage(e.getMessage());
                     logger.info(e.getMessage());
                 } else if (e instanceof NoHandlerFoundException) {

@@ -1,6 +1,7 @@
 package com.kiwiboot.kiwisso.service;
 
 import com.kiwiboot.kiwisso.model.User;
+import com.kiwiframework.easycoding.api.Result;
 import com.kiwiframework.easycoding.base.BaseService;
 /**
  * Created on 2018/11/04.
@@ -8,4 +9,10 @@ import com.kiwiframework.easycoding.base.BaseService;
  */
 public interface UserService extends BaseService<User> {
 
+    /**
+     * 登录
+     * @param loginUser
+     * @return
+     */
+    String doLogin(User loginUser);
 }
