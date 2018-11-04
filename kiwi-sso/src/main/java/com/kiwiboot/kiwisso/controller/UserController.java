@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 /**
- * UserController created on 2018/11/01.
+ * UserController created on 2018/11/04.
  * @author xiongzhao.
  */
 @Controller
