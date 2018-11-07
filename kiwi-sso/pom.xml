@@ -82,6 +82,10 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
 		<!-- mysql 依赖 -->
 		<!--MySQL JDBC驱动-->
 		<dependency>

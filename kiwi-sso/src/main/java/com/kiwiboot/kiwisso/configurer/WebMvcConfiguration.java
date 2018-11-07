@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.kiwiframework.easycoding.api.Result;
+import com.kiwiframework.easycoding.api.ApiResult;
 import com.kiwiframework.core.enums.ResultCode;
 import com.kiwiframework.core.exception.AppException;
 //import org.apache.commons.codec.digest.DigestUtils;
@@ -77,7 +77,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         exceptionResolvers.add(new HandlerExceptionResolver() {
             @Override
             public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) {
-                Result result = new Result();
+                ApiResult result = new ApiResult();
                 if (e instanceof BindException) {
                     FieldError error = ((BindException) e).getBindingResult().getFieldError();
                     String message = error.getDefaultMessage();
@@ -86,9 +86,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                         message = message.substring(index + 14);
                     }
                     StringBuffer messageBuffer = new StringBuffer();
-                    messageBuffer.append("字段[");
-                    messageBuffer.append(error.getField());
-                    messageBuffer.append("]: ");
+//                    messageBuffer.append("字段[");
+//                    messageBuffer.append(error.getField());
+//                    messageBuffer.append("]: ");
                     messageBuffer.append(message);
                     result.setCode(ResultCode.FAIL).setMessage(messageBuffer.toString());
                     logger.info(e.getMessage());
@@ -153,7 +153,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                         logger.warn("签名认证失败，请求接口：{}，请求IP：{}，请求参数：{}",
                                 request.getRequestURI(), getIpAddress(request), JSON.toJSONString(request.getParameterMap()));
 
-                        Result result = new Result();
+                        ApiResult result = new ApiResult();
                         result.setCode(ResultCode.UNAUTHORIZED).setMessage("签名认证失败");
                         responseResult(response, result);
                         return false;
@@ -163,7 +163,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         }
     }
 
-    private void responseResult(HttpServletResponse response, Result result) {
+    private void responseResult(HttpServletResponse response, ApiResult result) {
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Content-type", "application/json;charset=UTF-8");
         response.setStatus(200);

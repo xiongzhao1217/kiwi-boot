@@ -1,11 +1,15 @@
 package com.kiwiboot.kiwisso.model;
 
+import com.kiwiboot.kiwisso.constant.ValidatedGroup;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Data
 @Builder
@@ -47,10 +51,14 @@ public class User {
     /**
      * 密码,公式: MD5(MD5(明文密码)+盐)
      */
+    @NotEmpty(message = "密码不能为空", groups = ValidatedGroup.User.class)
+    @Length(min = 32, max = 32, message = "密码必须是md5加密后的32位字符串", groups = ValidatedGroup.User.class)
     private String passwd;
 
     private String telephone;
 
+    @NotEmpty(message = "email不能为空", groups = ValidatedGroup.User.class)
+    @Email(message = "邮箱格式不正确", groups = ValidatedGroup.User.class)
     private String email;
 
     /**

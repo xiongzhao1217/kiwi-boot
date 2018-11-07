@@ -1,5 +1,6 @@
 package com.kiwiboot.kiwisso;
 
+import com.kiwiframework.core.utils.encryption.MD5Helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

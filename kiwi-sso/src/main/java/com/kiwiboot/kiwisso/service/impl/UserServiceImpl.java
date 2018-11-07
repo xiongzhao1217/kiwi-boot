@@ -7,12 +7,15 @@ import com.kiwiboot.kiwisso.utils.JwtUtils;
 import com.kiwiframework.core.enums.ResultCode;
 import com.kiwiframework.core.exception.AppException;
 import com.kiwiframework.core.utils.Checker;
+import com.kiwiframework.core.utils.CodeGenerateor;
 import com.kiwiframework.core.utils.encryption.MD5Helper;
-import com.kiwiframework.easycoding.api.Result;
 import com.kiwiframework.easycoding.base.AbstractService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
+import java.util.Date;
+
 /**
  * Created on 2018/11/04.
  * @author xiongzhao.
@@ -25,17 +28,33 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override
     public String doLogin(User loginUser) {
-        Checker.notBlank(loginUser.getTelephone(), "手机号不能为空");
-        Checker.notBlank(loginUser.getPasswd(), "密码不能为空");
-        User user = selectBy("telephone", loginUser.getTelephone());
+        User user = selectBy("email", loginUser.getEmail());
         if (user == null) {
             throw new AppException(ResultCode.FAIL, "账号或密码错误");
         }
         // 校验密码
-//        if (!user.getPasswd().equals(MD5Helper.getMD5Str(loginUser.getPasswd() + user.getPasswdSalt()))) {
-//            throw new AppException(ResultCode.FAIL, "账号或密码错误");
-//        }
+        if (!user.getPasswd().equals(MD5Helper.getMD5Str(loginUser.getPasswd() + user.getPasswdSalt()))) {
+            throw new AppException(ResultCode.FAIL, "账号或密码错误");
+        }
         // 创建jwt
         return JwtUtils.createJWT(user);
+    }
+
+    @Override
+    public User register(User registerUser) {
+        String nickName = registerUser.getEmail();
+        if (StringUtils.isNotEmpty(registerUser.getEmail())) {
+            nickName = nickName.substring(0, nickName.indexOf("@"));
+        } else {
+            nickName = registerUser.getTelephone();
+        }
+        registerUser.setNickName(nickName);
+        registerUser.setPasswdSalt(CodeGenerateor.uuid());
+        registerUser.setPasswd(MD5Helper.getMD5Str(registerUser.getPasswd() + registerUser.getPasswdSalt()));
+        Date now = new Date();
+        registerUser.setCreateTime(now);
+        registerUser.setUpdateTime(now);
+        insertSelective(registerUser);
+        return registerUser;
     }
 }
