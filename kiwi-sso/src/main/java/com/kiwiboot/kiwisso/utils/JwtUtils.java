@@ -40,6 +40,7 @@ public class JwtUtils {
         claims.put("email", user.getEmail());
         claims.put("nickName", user.getNickName());
         claims.put("sex", user.getSex());
+        claims.put("avatarUrl", user.getAvatarUrl());
         //下面就是在为payload添加各种标准声明和私有声明了
         JwtBuilder builder = Jwts.builder()
                 //如果有私有声明，一定要先设置这个自己创建的私有的声明，这个是给builder的claim赋值，一旦写在标准的声明赋值之后，就是覆盖了那些标准的声明的
@@ -74,6 +75,7 @@ public class JwtUtils {
                     .email(claims.get("email") + "")
                     .nickName(claims.get("nickName") + "")
                     .sex(claims.get("sex") == null ? null : (Integer)claims.get("sex"))
+                    .avatarUrl(claims.get("avatarUrl") + "")
                     .build();
         } catch (SignatureException se) {
             throw new AppException(ResultCode.FAIL, "签名错误");

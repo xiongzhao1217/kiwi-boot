@@ -55,11 +55,20 @@ public class User {
     @Length(min = 32, max = 32, message = "密码必须是md5加密后的32位字符串", groups = ValidatedGroup.User.class)
     private String passwd;
 
+    /**
+     * 手机号
+     */
     private String telephone;
 
     @NotEmpty(message = "email不能为空", groups = ValidatedGroup.User.class)
     @Email(message = "邮箱格式不正确", groups = ValidatedGroup.User.class)
     private String email;
+
+    /**
+     * 头像地址
+     */
+    @Column(name = "avatar_url")
+    private String avatarUrl;
 
     /**
      * 创建时间

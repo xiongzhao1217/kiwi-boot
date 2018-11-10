@@ -1,5 +1,6 @@
 package com.kiwiboot.kiwisso.controller;
 import com.kiwiboot.kiwisso.constant.ValidatedGroup;
+import com.kiwiboot.kiwisso.utils.JwtUtils;
 import com.kiwiframework.core.enums.ResultCode;
 import com.kiwiframework.core.exception.AppException;
 import com.kiwiframework.easycoding.api.ApiResult;
@@ -9,6 +10,7 @@ import com.kiwiboot.kiwisso.service.UserService;
 import com.kiwiframework.easycoding.PageBean;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -72,7 +74,7 @@ public class UserController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/dologin")
+    @PostMapping(value = "/dologin")
     @ResponseBody
     public ApiResult<String> dologin(@Validated(ValidatedGroup.User.class) User loginUser, HttpServletResponse response) {
         String token = userService.doLogin(loginUser);
@@ -82,6 +84,21 @@ public class UserController {
         cookie.setPath("/");
         response.addCookie(cookie);
         return ResultGenerator.genSuccessResult(token);
+    }
+
+
+    /**
+     * 获取登录用户信息
+     * @param token
+     * @return
+     */
+    @GetMapping("/getUserInfo")
+    @ResponseBody
+    public ApiResult<User> getUserInfo(@CookieValue(value = "token", required = false) String token) {
+        if (StringUtils.isEmpty(token)) {
+            return ResultGenerator.genFailResult(ResultCode.TOKEN_EXPRIED, "token无效");
+        }
+        return ResultGenerator.genSuccessResult(JwtUtils.parseJWT(token));
     }
 
     /**

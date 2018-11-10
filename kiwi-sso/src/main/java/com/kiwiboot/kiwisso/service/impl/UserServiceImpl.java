@@ -11,6 +11,7 @@ import com.kiwiframework.core.utils.CodeGenerateor;
 import com.kiwiframework.core.utils.encryption.MD5Helper;
 import com.kiwiframework.easycoding.base.AbstractService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
@@ -25,6 +26,12 @@ import java.util.Date;
 public class UserServiceImpl extends AbstractService<User> implements UserService {
     @Resource
     private UserMapper userMapper;
+
+    /**
+     * 默认头像
+     */
+    @Value("${default.avatar.url}")
+    private String defaultAvatarUrl;
 
     @Override
     public String doLogin(User loginUser) {
@@ -51,6 +58,9 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         registerUser.setNickName(nickName);
         registerUser.setPasswdSalt(CodeGenerateor.uuid());
         registerUser.setPasswd(MD5Helper.getMD5Str(registerUser.getPasswd() + registerUser.getPasswdSalt()));
+        if (StringUtils.isEmpty(registerUser.getAvatarUrl())) {
+            registerUser.setAvatarUrl(defaultAvatarUrl);
+        }
         Date now = new Date();
         registerUser.setCreateTime(now);
         registerUser.setUpdateTime(now);
