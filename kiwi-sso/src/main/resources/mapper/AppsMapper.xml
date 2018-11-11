@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwiboot.kiwisso.dao.AppsMapper">
+  <resultMap id="BaseResultMap" type="com.kiwiboot.kiwisso.model.Apps">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="app_name" jdbcType="VARCHAR" property="appName" />
+    <result column="app_name_en" jdbcType="VARCHAR" property="appNameEn" />
+    <result column="app_secret" jdbcType="VARCHAR" property="appSecret" />
+    <result column="app_desc" jdbcType="VARCHAR" property="appDesc" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="app_support_telephone" jdbcType="VARCHAR" property="appSupportTelephone" />
+    <result column="creator" jdbcType="BIGINT" property="creator" />
+    <result column="updator" jdbcType="BIGINT" property="updator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    <!-- WARNING - @mbg.generated -->
+    sso_apps.id, sso_apps.app_id, sso_apps.app_name, sso_apps.app_name_en, sso_apps.app_secret, sso_apps.app_desc, sso_apps.status, sso_apps.app_support_telephone, sso_apps.creator, sso_apps.updator, sso_apps.create_time, sso_apps.update_time
+  </sql>
+  
+</mapper>

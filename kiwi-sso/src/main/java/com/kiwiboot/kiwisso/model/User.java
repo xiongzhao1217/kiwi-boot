@@ -13,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Data
 @Builder
-@Table(name = "kiwi_user")
+@Table(name = "sso_user")
 public class User {
 
     @Tolerate

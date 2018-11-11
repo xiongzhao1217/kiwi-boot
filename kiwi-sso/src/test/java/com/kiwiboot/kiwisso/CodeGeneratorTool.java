@@ -5,6 +5,7 @@ import com.kiwiframework.generator.CodeGenerator;
 public class CodeGeneratorTool {
 
     public static void main(String[] args) {
-        CodeGenerator.genCode("kiwi_user", "User");
+        CodeGenerator.genCode("sso_apps", "Apps");
+//        CodeGenerator.genCode("sso_user", "User");
     }
 }
