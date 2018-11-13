@@ -3,6 +3,7 @@ import com.kiwiboot.kiwisso.constant.ValidatedGroup;
 import com.kiwiboot.kiwisso.utils.JwtUtils;
 import com.kiwiframework.core.enums.ResultCode;
 import com.kiwiframework.core.exception.AppException;
+import com.kiwiframework.core.utils.Checker;
 import com.kiwiframework.easycoding.api.ApiResult;
 import com.kiwiframework.easycoding.api.ResultGenerator;
 import com.kiwiboot.kiwisso.model.User;
@@ -59,7 +60,7 @@ public class UserController {
         return ResultGenerator.genSuccessResult(user);
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list")
     @ResponseBody
     public ApiResult list(PageBean pageBean, User query) {
         PageHelper.startPage(pageBean).setOrderBy(pageBean.getOrderBy());
@@ -108,9 +109,29 @@ public class UserController {
      */
     @PostMapping(value = "/register")
     @ResponseBody
-    public ApiResult<User> register(@Validated(ValidatedGroup.User.class) User registerUser) {
+    public ApiResult<User> register(@Validated({
+            ValidatedGroup.User.class,
+            ValidatedGroup.UserSelf.class
+    }) User registerUser) {
         try {
             userService.register(registerUser);
+        } catch (DuplicateKeyException dupExp) {
+            throw new AppException(ResultCode.FAIL, "手机号或邮箱已经被使用,请更换其他账号");
+        }
+        return ResultGenerator.genSuccessResult();
+    }
+
+    /**
+     * 管理员创建用户
+     * @param user
+     * @return
+     */
+    @PostMapping(value = "/adminAddUser")
+    @ResponseBody
+    public ApiResult<User> adminAddUser(@Validated(ValidatedGroup.User.class) User user) {
+        try {
+            Checker.notBlank(user.getNickName(), "姓名不能为空");
+            userService.adminAddUser(user);
         } catch (DuplicateKeyException dupExp) {
             throw new AppException(ResultCode.FAIL, "手机号或邮箱已经被使用,请更换其他账号");
         }

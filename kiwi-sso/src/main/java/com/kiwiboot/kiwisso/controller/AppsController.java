@@ -12,6 +12,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import tk.mybatis.mapper.entity.Condition;
+
 import java.util.List;
 /**
  * AppsController created on 2018/11/11.
@@ -56,7 +58,7 @@ public class AppsController {
     @ResponseBody
     public ApiResult list(PageBean pageBean, Apps query) {
         PageHelper.startPage(pageBean).setOrderBy(pageBean.getOrderBy());
-        List<Apps> list = appsService.find(query);
+        List<Apps> list = appsService.queryList(query);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
     }

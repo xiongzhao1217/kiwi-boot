@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created on 2018/11/11.
@@ -34,5 +35,10 @@ public class AppsServiceImpl extends AbstractService<Apps> implements AppsServic
         apps.setUpdateTime(now);
         apps.setUpdator(ssoUser.getId());
         return insertSelective(apps);
+    }
+
+    @Override
+    public List<Apps> queryList(Apps query) {
+        return appsMapper.queryList(query);
     }
 }

@@ -61,10 +61,27 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         if (StringUtils.isEmpty(registerUser.getAvatarUrl())) {
             registerUser.setAvatarUrl(defaultAvatarUrl);
         }
+        registerUser.setStatus(1);
         Date now = new Date();
         registerUser.setCreateTime(now);
         registerUser.setUpdateTime(now);
         insertSelective(registerUser);
         return registerUser;
+    }
+
+    @Override
+    public User adminAddUser(User user) {
+        user.setPasswdSalt(CodeGenerateor.uuid());
+        // 默认密码111111
+        user.setPasswd(MD5Helper.getMD5Str(MD5Helper.getMD5Str("111111") + user.getPasswdSalt()));
+        if (StringUtils.isEmpty(user.getAvatarUrl())) {
+            user.setAvatarUrl(defaultAvatarUrl);
+        }
+        user.setStatus(1);
+        Date now = new Date();
+        user.setCreateTime(now);
+        user.setUpdateTime(now);
+        insertSelective(user);
+        return user;
     }
 }

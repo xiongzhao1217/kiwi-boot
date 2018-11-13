@@ -10,4 +10,9 @@ public interface ValidatedGroup {
 	 * 注册校验
 	 */
 	interface User{}
+
+	/**
+	 * 用户主动注册
+	 */
+	interface UserSelf{}
 }

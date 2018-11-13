@@ -23,5 +23,27 @@
     <!-- WARNING - @mbg.generated -->
     sso_apps.id, sso_apps.app_id, sso_apps.app_name, sso_apps.app_name_en, sso_apps.app_secret, sso_apps.app_desc, sso_apps.status, sso_apps.app_support_telephone, sso_apps.creator, sso_apps.updator, sso_apps.create_time, sso_apps.update_time
   </sql>
+
+
+  <!-- 条件查询 -->
+  <select id="queryList" parameterType="com.kiwiboot.kiwisso.model.Apps" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List"/>
+    FROM sso_apps sso_apps
+    <where>
+      <if test="appId != null and appId != ''">
+        AND sso_apps.app_id = #{appId, jdbcType=VARCHAR}
+      </if>
+      <if test="appName != null and appName != ''">
+        AND sso_apps.app_name LIKE CONCAT(CONCAT('%',#{appName}),'%')
+      </if>
+      <if test="appNameEn != null and appName != ''">
+        AND sso_apps.app_name_en LIKE CONCAT(CONCAT('%',#{appNameEn}),'%')
+      </if>
+      <if test="status != null">
+        AND sso_apps.status = #{status, jdbcType=SMALLINT}
+      </if>
+    </where>
+  </select>
   
 </mapper>

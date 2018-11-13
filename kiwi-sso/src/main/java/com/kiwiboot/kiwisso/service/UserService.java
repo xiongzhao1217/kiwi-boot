@@ -21,4 +21,11 @@ public interface UserService extends BaseService<User> {
      * @return
      */
     User register(User registerUser);
+
+    /**
+     * 管理员创建用户
+     * @param user
+     * @return
+     */
+    User adminAddUser(User user);
 }

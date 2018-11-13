@@ -51,8 +51,8 @@ public class User {
     /**
      * 密码,公式: MD5(MD5(明文密码)+盐)
      */
-    @NotEmpty(message = "密码不能为空", groups = ValidatedGroup.User.class)
-    @Length(min = 32, max = 32, message = "密码必须是md5加密后的32位字符串", groups = ValidatedGroup.User.class)
+    @NotEmpty(message = "密码不能为空", groups = ValidatedGroup.UserSelf.class)
+    @Length(min = 32, max = 32, message = "密码必须是md5加密后的32位字符串", groups = ValidatedGroup.UserSelf.class)
     private String passwd;
 
     /**
@@ -69,6 +69,11 @@ public class User {
      */
     @Column(name = "avatar_url")
     private String avatarUrl;
+
+    /**
+     * 用户状态,0:无效,1:有效
+     */
+    private Integer status;
 
     /**
      * 创建时间
