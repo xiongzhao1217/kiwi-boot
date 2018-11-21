@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwiboot.kiwisso.dao.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.kiwiboot.kiwisso.model.Role">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="apps_id" jdbcType="BIGINT" property="appsId" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_desc" jdbcType="VARCHAR" property="roleDesc" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    <!-- WARNING - @mbg.generated -->
+    a_role.id, a_role.apps_id, a_role.role_name, a_role.role_desc, a_role.create_time, a_role.update_time
+  </sql>
+  
+</mapper>
