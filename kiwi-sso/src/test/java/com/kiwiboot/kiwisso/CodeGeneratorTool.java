@@ -6,7 +6,8 @@ public class CodeGeneratorTool {
 
     public static void main(String[] args) {
 //        CodeGenerator.genCode("sso_apps", "Apps");
-        CodeGenerator.genCode("a_role", "Role");
+//        CodeGenerator.genCode("a_role", "Role");
+        CodeGenerator.genCode("a_access", "Access");
 //        CodeGenerator.genCode("sso_user", "User");
     }
 }
