@@ -3,8 +3,8 @@ package com.kiwiboot.kiwisso.model;
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "a_access")
-public class Access {
+@Table(name = "a_menu")
+public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

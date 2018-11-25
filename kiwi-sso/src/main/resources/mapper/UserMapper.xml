@@ -23,5 +23,27 @@
     <!-- WARNING - @mbg.generated -->
     kiwi_user.id, kiwi_user.username, kiwi_user.nick_name, kiwi_user.passwd_salt, kiwi_user.login_fail_counts, kiwi_user.sex, kiwi_user.passwd, kiwi_user.telephone, kiwi_user.email, kiwi_user.status, kiwi_user.create_time, kiwi_user.update_time
   </sql>
-  
+
+  <resultMap id="BaseResultVOMap" extends="BaseResultMap" type="com.kiwiboot.kiwisso.model.vo.UserVO">
+    <result column="roleUserRelaId" jdbcType="BIGINT" property="roleUserRelaId" />
+  </resultMap>
+
+  <select id="findByRole" parameterType="java.lang.Long" resultMap="BaseResultVOMap">
+    SELECT usr.*, role_user_rela.id roleUserRelaId
+    FROM sso_user usr
+    LEFT JOIN a_role_user_rela role_user_rela
+    ON usr.id = role_user_rela.user_id
+    AND role_user_rela.role_id = #{roleId, jdbcType=BIGINT}
+    <where>
+      <if test="telephone != null and telephone != ''">
+        AND usr.telephone = #{telephone, jdbcType=VARCHAR}
+      </if>
+      <if test="nickName != null and nickName != ''">
+        AND usr.nick_name LIKE CONCAT(CONCAT('%',#{nickName}),'%')
+      </if>
+      <if test="email != null and email != ''">
+        AND usr.email LIKE CONCAT(CONCAT('%',#{email}),'%')
+      </if>
+    </where>
+  </select>
 </mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwiboot.kiwisso.dao.RoleMenuRelaMapper">
+  <resultMap id="BaseResultMap" type="com.kiwiboot.kiwisso.model.RoleMenuRela">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="menu_id" jdbcType="BIGINT" property="menuId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    <!-- WARNING - @mbg.generated -->
+    a_role_menu_rela.id, a_role_menu_rela.role_id, a_role_menu_rela.menu_id, a_role_menu_rela.create_time, a_role_menu_rela.update_time
+  </sql>
+  
+</mapper>

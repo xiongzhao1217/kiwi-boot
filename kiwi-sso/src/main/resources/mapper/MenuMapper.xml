@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kiwiboot.kiwisso.dao.AccessMapper">
-  <resultMap id="BaseResultMap" type="com.kiwiboot.kiwisso.model.Access">
+<mapper namespace="com.kiwiboot.kiwisso.dao.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.kiwiboot.kiwisso.model.Menu">
     <!--
       WARNING - @mbg.generated
     -->
@@ -18,7 +18,21 @@
   
   <sql id="Base_Column_List">
     <!-- WARNING - @mbg.generated -->
-    a_access.id, a_access.pid, a_access.apps_id, a_access.name, a_access.url, a_access.type, a_access.order_id, a_access.create_time, a_access.update_time
+    a_menu.id, a_menu.pid, a_menu.apps_id, a_menu.name, a_menu.url, a_menu.type, a_menu.order_id, a_menu.create_time, a_menu.update_time
   </sql>
+
+
+  <resultMap id="BaseResultVOMap" extends="BaseResultMap" type="com.kiwiboot.kiwisso.model.vo.MenuVO">
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+  </resultMap>
+
+  <select id="findByRoleId" resultMap="BaseResultVOMap">
+    SELECT menu.*, role_menu_rela.role_id
+    FROM a_menu menu
+    LEFT JOIN a_role_menu_rela role_menu_rela
+    ON role_menu_rela.menu_id = menu.id
+    AND role_menu_rela.role_id = #{roleId, jdbcType=BIGINT}
+    WHERE menu.apps_id = #{appsId, jdbcType=BIGINT}
+  </select>
   
 </mapper>

@@ -2,6 +2,7 @@ package com.kiwiboot.kiwisso.service.impl;
 
 import com.kiwiboot.kiwisso.dao.UserMapper;
 import com.kiwiboot.kiwisso.model.User;
+import com.kiwiboot.kiwisso.model.vo.UserVO;
 import com.kiwiboot.kiwisso.service.UserService;
 import com.kiwiboot.kiwisso.utils.JwtUtils;
 import com.kiwiframework.core.enums.ResultCode;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created on 2018/11/04.
@@ -83,5 +85,10 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         user.setUpdateTime(now);
         insertSelective(user);
         return user;
+    }
+
+    @Override
+    public List<UserVO> findByRole(UserVO query) {
+        return userMapper.findByRole(query);
     }
 }

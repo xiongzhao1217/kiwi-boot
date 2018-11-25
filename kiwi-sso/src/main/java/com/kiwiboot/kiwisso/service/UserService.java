@@ -1,7 +1,11 @@
 package com.kiwiboot.kiwisso.service;
 
 import com.kiwiboot.kiwisso.model.User;
+import com.kiwiboot.kiwisso.model.vo.UserVO;
 import com.kiwiframework.easycoding.base.BaseService;
+
+import java.util.List;
+
 /**
  * Created on 2018/11/04.
  * @author xiongzhao.
@@ -28,4 +32,11 @@ public interface UserService extends BaseService<User> {
      * @return
      */
     User adminAddUser(User user);
+
+    /**
+     * 根据角色查询用户
+     * @param query
+     * @return
+     */
+    List<UserVO> findByRole(UserVO query);
 }

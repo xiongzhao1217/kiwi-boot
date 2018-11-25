@@ -1,8 +1,8 @@
 package com.kiwiboot.kiwisso.controller;
 import com.kiwiframework.easycoding.api.ApiResult;
 import com.kiwiframework.easycoding.api.ResultGenerator;
-import com.kiwiboot.kiwisso.model.Access;
-import com.kiwiboot.kiwisso.service.AccessService;
+import com.kiwiboot.kiwisso.model.Menu;
+import com.kiwiboot.kiwisso.service.MenuService;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,54 +11,55 @@ import tk.mybatis.mapper.entity.Condition;
 import java.util.Date;
 import java.util.List;
 /**
- * AccessController created on 2018/11/22.
+ * MenuController created on 2018/11/25.
  * @author xiongzhao.
  */
 @Controller
-@RequestMapping("//access")
-public class AccessController {
+@RequestMapping("/menu")
+public class MenuController {
     @Resource
-    private AccessService accessService;
+    private MenuService menuService;
 
     @PostMapping(value = "/add")
     @ResponseBody
-    public ApiResult add(Access access) {
-        access.setCreateTime(new Date());
-        if (access.getType() == 2) {
-            access.setUrl(null);
+    public ApiResult add(Menu menu) {
+        menu.setCreateTime(new Date());
+        if (menu.getType() == 2) {
+            menu.setUrl(null);
         }
-        accessService.insertSelective(access);
-        return ResultGenerator.genSuccessResult(access);
+        menuService.insertSelective(menu);
+        return ResultGenerator.genSuccessResult();
     }
 
     @PostMapping(value = "/delete")
     @ResponseBody
     public ApiResult delete(@RequestParam Integer id) {
-        accessService.deleteById(id);
+        menuService.deleteById(id);
         return ResultGenerator.genSuccessResult();
     }
 
     @PostMapping(value = "/update")
     @ResponseBody
-    public ApiResult update(Access access) {
-        accessService.updateSelective(access);
+    public ApiResult update(Menu menu) {
+        menu.setUpdateTime(new Date());
+        menuService.updateSelective(menu);
         return ResultGenerator.genSuccessResult();
     }
 
     @GetMapping(value = "/detail")
     @ResponseBody
     public ApiResult detail(@RequestParam Integer id) {
-        Access access = accessService.selectById(id);
-        return ResultGenerator.genSuccessResult(access);
+        Menu menu = menuService.selectById(id);
+        return ResultGenerator.genSuccessResult(menu);
     }
 
     @GetMapping(value = "/list")
     @ResponseBody
-    public ApiResult list(Access query) {
-        Condition condition = new Condition(Access.class);
+    public ApiResult list(Menu query) {
+        Condition condition = new Condition(Menu.class);
         condition.and().andEqualTo(query);
         condition.orderBy("orderId").asc();
-        List<Access> list = accessService.findByCondition(condition);
+        List<Menu> list = menuService.findByCondition(condition);
         return ResultGenerator.genSuccessResult(list);
     }
 }
