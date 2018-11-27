@@ -27,8 +27,10 @@ public class MenuController {
         if (menu.getType() == 2) {
             menu.setUrl(null);
         }
+        // 排序值越小越靠前,新增默认排在最后
+        menu.setOrderId(9999);
         menuService.insertSelective(menu);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(menu);
     }
 
     @PostMapping(value = "/delete")
@@ -43,7 +45,7 @@ public class MenuController {
     public ApiResult update(Menu menu) {
         menu.setUpdateTime(new Date());
         menuService.updateSelective(menu);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(menu);
     }
 
     @GetMapping(value = "/detail")

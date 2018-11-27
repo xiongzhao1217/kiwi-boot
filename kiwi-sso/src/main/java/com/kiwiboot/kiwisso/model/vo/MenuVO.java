@@ -12,4 +12,9 @@ public class MenuVO extends Menu{
      * 角色ID
      */
     private Long roleId;
+
+    /**
+     * 用户id
+     */
+    private Long userId;
 }

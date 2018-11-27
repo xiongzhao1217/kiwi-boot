@@ -24,4 +24,12 @@ public class MenuServiceImpl extends AbstractService<Menu> implements MenuServic
     public List<MenuVO> findByRoleId(Long appsId, Long roleId) {
         return menuMapper.findByRoleId(appsId, roleId);
     }
+
+    @Override
+    public List<Menu> findByUser(Long userId, Long appsId) {
+        MenuVO query = new MenuVO();
+        query.setUserId(userId);
+        query.setAppsId(appsId);
+        return menuMapper.findByUser(query);
+    }
 }

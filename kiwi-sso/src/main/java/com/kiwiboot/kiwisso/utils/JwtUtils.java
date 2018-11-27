@@ -1,10 +1,12 @@
 package com.kiwiboot.kiwisso.utils;
 
 import com.kiwiboot.kiwisso.model.User;
+import com.kiwiboot.kiwisso.model.vo.UserVO;
 import com.kiwiframework.core.enums.ResultCode;
 import com.kiwiframework.core.exception.AppException;
 import com.kiwiframework.core.utils.CodeGenerateor;
 import io.jsonwebtoken.*;
+import org.springframework.beans.BeanUtils;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -64,19 +66,19 @@ public class JwtUtils {
      * @return
      * @throws Exception
      */
-    public static User parseJWT(String token){
+    public static UserVO parseJWT(String token){
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(SECRET_KEY)
                     .parseClaimsJws(token).getBody();
-            return User.builder()
-                    .id(Long.valueOf(claims.get("id").toString()))
-                    .telephone(claims.get("telephone") + "")
-                    .email(claims.get("email") + "")
-                    .nickName(claims.get("nickName") + "")
-                    .sex(claims.get("sex") == null ? null : (Integer)claims.get("sex"))
-                    .avatarUrl(claims.get("avatarUrl") + "")
-                    .build();
+            UserVO user = new UserVO();
+            user.setId(Long.valueOf(claims.get("id").toString()));
+            user.setTelephone(claims.get("telephone") + "");
+            user.setEmail(claims.get("email") + "");
+            user.setNickName(claims.get("nickName") + "");
+            user.setSex(claims.get("sex") == null ? null : (Integer)claims.get("sex"));
+            user.setAvatarUrl(claims.get("avatarUrl") + "");
+            return user;
         } catch (SignatureException se) {
             throw new AppException(ResultCode.FAIL, "签名错误");
         } catch (ExpiredJwtException ee) {

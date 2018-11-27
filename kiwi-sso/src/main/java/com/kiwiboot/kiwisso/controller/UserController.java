@@ -1,5 +1,7 @@
 package com.kiwiboot.kiwisso.controller;
 import com.kiwiboot.kiwisso.constant.ValidatedGroup;
+import com.kiwiboot.kiwisso.model.vo.UserVO;
+import com.kiwiboot.kiwisso.service.MenuService;
 import com.kiwiboot.kiwisso.utils.JwtUtils;
 import com.kiwiframework.core.enums.ResultCode;
 import com.kiwiframework.core.exception.AppException;
@@ -31,6 +33,8 @@ import java.util.List;
 public class UserController {
     @Resource
     private UserService userService;
+    @Resource
+    private MenuService menuService;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
@@ -95,11 +99,14 @@ public class UserController {
      */
     @GetMapping("/getUserInfo")
     @ResponseBody
-    public ApiResult<User> getUserInfo(@CookieValue(value = "token", required = false) String token) {
+    public ApiResult<User> getUserInfo(@CookieValue(value = "token", required = false) String token, Long appsId) {
         if (StringUtils.isEmpty(token)) {
             return ResultGenerator.genFailResult(ResultCode.TOKEN_EXPRIED, "token无效");
         }
-        return ResultGenerator.genSuccessResult(JwtUtils.parseJWT(token));
+        Checker.notNull(appsId, "应用id不能为空");
+        UserVO user = JwtUtils.parseJWT(token);
+        user.setMenuList(menuService.findByUser(user.getId(), appsId));
+        return ResultGenerator.genSuccessResult(user);
     }
 
     /**
