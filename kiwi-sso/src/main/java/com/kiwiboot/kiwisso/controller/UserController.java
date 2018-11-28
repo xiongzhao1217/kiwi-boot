@@ -91,7 +91,6 @@ public class UserController {
         return ResultGenerator.genSuccessResult(token);
     }
 
-
     /**
      * 获取登录用户信息
      * @param token
