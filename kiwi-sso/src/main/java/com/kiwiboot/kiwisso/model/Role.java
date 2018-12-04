@@ -1,5 +1,6 @@
 package com.kiwiboot.kiwisso.model;
 
+import com.kiwiframework.easycoding.base.BaseModel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Data
 @Builder
 @Table(name = "a_role")
-public class Role {
+public class Role extends BaseModel{
 
     @Tolerate
     public Role(){}
@@ -37,9 +38,9 @@ public class Role {
     @Column(name = "role_desc")
     private String roleDesc;
 
-    @Column(name = "create_time")
-    private Date createTime;
-
-    @Column(name = "update_time")
-    private Date updateTime;
+//    @Column(name = "create_time")
+//    private Date createTime;
+//
+//    @Column(name = "update_time")
+//    private Date updateTime;
 }

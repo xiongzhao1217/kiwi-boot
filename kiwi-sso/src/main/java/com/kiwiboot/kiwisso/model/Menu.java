@@ -1,5 +1,6 @@
 package com.kiwiboot.kiwisso.model;
 
+import com.kiwiframework.easycoding.base.BaseModel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Data
 @Builder
 @Table(name = "a_menu")
-public class Menu {
+public class Menu extends BaseModel{
 
     @Tolerate
     public Menu() {}
@@ -54,9 +55,9 @@ public class Menu {
     @Column(name = "order_id")
     private Integer orderId;
 
-    @Column(name = "create_time")
-    private Date createTime;
-
-    @Column(name = "update_time")
-    private Date updateTime;
+//    @Column(name = "create_time")
+//    private Date createTime;
+//
+//    @Column(name = "update_time")
+//    private Date updateTime;
 }

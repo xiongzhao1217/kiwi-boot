@@ -1,6 +1,7 @@
 package com.kiwiboot.kiwisso.model;
 
 import com.kiwiboot.kiwisso.constant.ValidatedGroup;
+import com.kiwiframework.easycoding.base.BaseModel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @Builder
 @Table(name = "sso_user")
-public class User {
+public class User extends BaseModel{
 
     @Tolerate
     public User(){}
@@ -75,12 +76,12 @@ public class User {
      */
     private Integer status;
 
-    /**
-     * 创建时间
-     */
-    @Column(name = "create_time")
-    private Date createTime;
-
-    @Column(name = "update_time")
-    private Date updateTime;
+//    /**
+//     * 创建时间
+//     */
+//    @Column(name = "create_time")
+//    private Date createTime;
+//
+//    @Column(name = "update_time")
+//    private Date updateTime;
 }

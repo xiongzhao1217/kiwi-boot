@@ -59,19 +59,8 @@
 			<artifactId>mapper-spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>tk.mybatis</groupId>
-			<artifactId>mapper-core</artifactId>
-			<version>1.0.5</version>
-		</dependency>
-		<dependency>
-			<groupId>tk.mybatis</groupId>
-			<artifactId>mapper-base</artifactId>
-			<version>1.0.5</version>
-		</dependency>
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
 		</dependency>
 		<!--  常用依赖库 -->
 		<dependency>

@@ -1,62 +1,58 @@
 package com.kiwiboot.kiwisso.controller;
 import com.kiwiframework.easycoding.api.ApiResult;
 import com.kiwiframework.easycoding.api.ResultGenerator;
-import com.kiwiboot.kiwisso.model.Role;
-import com.kiwiboot.kiwisso.service.RoleService;
+import com.kiwiboot.kiwisso.model.RoleAccessRela;
+import com.kiwiboot.kiwisso.service.RoleAccessRelaService;
 import com.kiwiframework.easycoding.PageBean;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 import java.util.List;
 /**
- * RoleController created on 2018/11/21.
+ * RoleAccessRelaController created on 2018/12/04.
  * @author xiongzhao.
  */
 @Controller
-@RequestMapping("/role")
-public class RoleController {
+@RequestMapping("/roleAccessRela")
+public class RoleAccessRelaController {
     @Resource
-    private RoleService roleService;
+    private RoleAccessRelaService roleAccessRelaService;
 
     @PostMapping(value = "/add")
     @ResponseBody
-    public ApiResult add(Role role) {
-        role.setCreateTime(new Date());
-        roleService.insertSelective(role);
+    public ApiResult add(RoleAccessRela roleAccessRela) {
+        roleAccessRelaService.insertSelective(roleAccessRela);
         return ResultGenerator.success();
     }
 
     @PostMapping(value = "/delete")
     @ResponseBody
     public ApiResult delete(@RequestParam Integer id) {
-        roleService.deleteById(id);
+        roleAccessRelaService.deleteById(id);
         return ResultGenerator.success();
     }
 
     @PostMapping(value = "/update")
     @ResponseBody
-    public ApiResult update(Role role) {
-        role.setUpdateTime(new Date());
-        roleService.update(role);
+    public ApiResult update(RoleAccessRela roleAccessRela) {
+        roleAccessRelaService.updateSelective(roleAccessRela);
         return ResultGenerator.success();
     }
 
     @GetMapping(value = "/detail")
     @ResponseBody
     public ApiResult detail(@RequestParam Integer id) {
-        Role role = roleService.selectById(id);
-        return ResultGenerator.success(role);
+        RoleAccessRela roleAccessRela = roleAccessRelaService.selectById(id);
+        return ResultGenerator.success(roleAccessRela);
     }
 
-    @RequestMapping(value = "/list")
+    @GetMapping(value = "/list")
     @ResponseBody
-    public ApiResult list(PageBean pageBean, Role query) {
+    public ApiResult list(PageBean pageBean, RoleAccessRela query) {
         PageHelper.startPage(pageBean).setOrderBy(pageBean.getOrderBy());
-        List<Role> list = roleService.find(query);
+        List<RoleAccessRela> list = roleAccessRelaService.find(query);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.success(pageInfo);
     }

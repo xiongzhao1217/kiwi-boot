@@ -1,7 +1,7 @@
 package com.kiwiboot.kiwisso.dao;
 
 import com.kiwiboot.kiwisso.model.User;
-import com.kiwiboot.kiwisso.model.vo.UserVO;
+import com.kiwiboot.kiwisso.model.vo.SsoUser;
 import com.kiwiframework.easycoding.base.BaseMapper;
 
 import java.util.List;
@@ -13,5 +13,5 @@ public interface UserMapper extends BaseMapper<User> {
      * @param query
      * @return
      */
-    List<UserVO> findByRole(UserVO query);
+    List<SsoUser> findByRole(SsoUser query);
 }

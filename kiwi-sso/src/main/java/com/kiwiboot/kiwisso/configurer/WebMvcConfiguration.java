@@ -4,13 +4,19 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.kiwiboot.kiwisso.configurer.interceptor.AppHandlerInterceptorAdapter;
+import com.kiwiframework.core.tools.SpringContextHolder;
 import com.kiwiframework.easycoding.api.ApiResult;
 import com.kiwiframework.core.enums.ResultCode;
 import com.kiwiframework.core.exception.AppException;
 //import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
@@ -22,6 +28,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -32,15 +39,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Spring MVC 配置
  * @author xz
  */
 @Configuration
-public class WebMvcConfiguration implements WebMvcConfigurer {
+public class WebMvcConfiguration implements ApplicationContextAware, WebMvcConfigurer {
 
     private final Logger logger = LoggerFactory.getLogger(WebMvcConfiguration.class);
+
+    private ApplicationContext applicationContext;
 
     /**
      * 当前环境变量
@@ -102,7 +112,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 }
                 //业务失败的异常，如“账号或密码错误”
                 else if (e instanceof AppException) {
-                    result.setCode(ResultCode.FAIL).setMessage(e.getMessage());
+                    result.setCode(((AppException) e).getCode()).setMessage(e.getMessage());
                     logger.info(e.getMessage());
                 } else if (e instanceof NoHandlerFoundException) {
                     result.setCode(ResultCode.NOT_FOUND).setMessage("接口 [" + request.getRequestURI() + "] 不存在");
@@ -145,29 +155,20 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        //接口签名认证拦截器，该签名认证比较简单，实际项目中可以使用Json Web Token或其他更好的方式替代。
-        //开发环境忽略签名认证
-        if (!"dev".equals(env)) {
-            registry.addInterceptor(new HandlerInterceptorAdapter() {
-                @Override
-                public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-                    //验证签名
-//                    boolean pass = validateSign(request);
-//                    if (pass) {
-                    if (true) {
-                        return true;
-                    } else {
-                        logger.warn("签名认证失败，请求接口：{}，请求IP：{}，请求参数：{}",
-                                request.getRequestURI(), getIpAddress(request), JSON.toJSONString(request.getParameterMap()));
+        Map<String, AppHandlerInterceptorAdapter> handlerInterceptorMap = availableInterceptors();
+        handlerInterceptorMap.forEach((key, value) -> {
+            String[] excludePathPattens = value.excludePathPatterns();
+            InterceptorRegistration interceptorRegistration =
+                    registry.addInterceptor(value)
+                            .addPathPatterns(value.pathPatterns());
+            if (excludePathPattens != null && excludePathPattens.length > 0) {
+                interceptorRegistration.excludePathPatterns(excludePathPattens);
+            }
+        });
+    }
 
-                        ApiResult result = new ApiResult();
-                        result.setCode(ResultCode.UNAUTHORIZED).setMessage("签名认证失败");
-                        responseResult(response, result);
-                        return false;
-                    }
-                }
-            });
-        }
+    private Map<String, AppHandlerInterceptorAdapter> availableInterceptors() {
+        return applicationContext.getBeansOfType(AppHandlerInterceptorAdapter.class);
     }
 
     private void responseResult(HttpServletResponse response, ApiResult result) {
@@ -180,40 +181,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
             logger.error(ex.getMessage());
         }
     }
-
-//    /**
-//     * 一个简单的签名认证，规则：
-//     * 1. 将请求参数按ascii码排序
-//     * 2. 拼接为a=value&b=value...这样的字符串（不包含sign）
-//     * 3. 混合密钥（secret）进行md5获得签名，与请求的签名进行比较
-//     */
-//    private boolean validateSign(HttpServletRequest request) {
-//        //获得请求签名，如sign=19e907700db7ad91318424a97c54ed57
-//        String requestSign = request.getParameter("sign");
-//        if (StringUtils.isEmpty(requestSign)) {
-//            return false;
-//        }
-//        List<String> keys = new ArrayList<String>(request.getParameterMap().keySet());
-//        //排除sign参数
-//        keys.remove("sign");
-//        //排序
-//        Collections.sort(keys);
-//
-//        StringBuilder sb = new StringBuilder();
-//        for (String key : keys) {
-//            //拼接字符串
-//            sb.append(key).append("=").append(request.getParameter(key)).append("&");
-//        }
-//        String linkString = sb.toString();
-//        //去除最后一个'&'
-//        linkString = StringUtils.substring(linkString, 0, linkString.length() - 1);
-//        //密钥，自己修改
-//        String secret = "Potato";
-//        //混合密钥md5
-//        String sign = DigestUtils.md5Hex(linkString + secret);
-//
-//        return StringUtils.equals(sign, requestSign);
-//    }
 
     private String getIpAddress(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
@@ -238,5 +205,15 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         }
 
         return ip;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    @Bean
+    public SpringContextHolder getSpringContextHolder() {
+        return new SpringContextHolder();
     }
 }

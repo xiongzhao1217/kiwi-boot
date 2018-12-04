@@ -30,14 +30,14 @@ public class MenuController {
         // 排序值越小越靠前,新增默认排在最后
         menu.setOrderId(9999);
         menuService.insertSelective(menu);
-        return ResultGenerator.genSuccessResult(menu);
+        return ResultGenerator.success(menu);
     }
 
     @PostMapping(value = "/delete")
     @ResponseBody
     public ApiResult delete(@RequestParam Integer id) {
         menuService.deleteById(id);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.success();
     }
 
     @PostMapping(value = "/update")
@@ -45,14 +45,14 @@ public class MenuController {
     public ApiResult update(Menu menu) {
         menu.setUpdateTime(new Date());
         menuService.updateSelective(menu);
-        return ResultGenerator.genSuccessResult(menu);
+        return ResultGenerator.success(menu);
     }
 
     @GetMapping(value = "/detail")
     @ResponseBody
     public ApiResult detail(@RequestParam Integer id) {
         Menu menu = menuService.selectById(id);
-        return ResultGenerator.genSuccessResult(menu);
+        return ResultGenerator.success(menu);
     }
 
     @GetMapping(value = "/list")
@@ -62,6 +62,6 @@ public class MenuController {
         condition.and().andEqualTo(query);
         condition.orderBy("orderId").asc();
         List<Menu> list = menuService.findByCondition(condition);
-        return ResultGenerator.genSuccessResult(list);
+        return ResultGenerator.success(list);
     }
 }

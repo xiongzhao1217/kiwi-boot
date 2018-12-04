@@ -10,7 +10,7 @@ import java.util.List;
  * @author xiongzhao1 by 2018-11-25 10:31
  */
 @Data
-public class UserVO extends User {
+public class SsoUser extends User {
 
     /**
      * 角色id

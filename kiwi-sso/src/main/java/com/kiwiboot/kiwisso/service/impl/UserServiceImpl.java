@@ -2,12 +2,11 @@ package com.kiwiboot.kiwisso.service.impl;
 
 import com.kiwiboot.kiwisso.dao.UserMapper;
 import com.kiwiboot.kiwisso.model.User;
-import com.kiwiboot.kiwisso.model.vo.UserVO;
+import com.kiwiboot.kiwisso.model.vo.SsoUser;
 import com.kiwiboot.kiwisso.service.UserService;
 import com.kiwiboot.kiwisso.utils.JwtUtils;
 import com.kiwiframework.core.enums.ResultCode;
 import com.kiwiframework.core.exception.AppException;
-import com.kiwiframework.core.utils.Checker;
 import com.kiwiframework.core.utils.CodeGenerateor;
 import com.kiwiframework.core.utils.encryption.MD5Helper;
 import com.kiwiframework.easycoding.base.AbstractService;
@@ -88,7 +87,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     @Override
-    public List<UserVO> findByRole(UserVO query) {
+    public List<SsoUser> findByRole(SsoUser query) {
         return userMapper.findByRole(query);
     }
 }

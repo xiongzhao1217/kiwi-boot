@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiwiboot.kiwisso.dao.AccessMapper">
+  <resultMap id="BaseResultMap" type="com.kiwiboot.kiwisso.model.Access">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="pid" jdbcType="BIGINT" property="pid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="apps_id" jdbcType="BIGINT" property="appsId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    <!-- WARNING - @mbg.generated -->
+    a_access.id, a_access.pid, a_access.name, a_access.code, a_access.url, a_access.apps_id, a_access.create_time, a_access.update_time
+  </sql>
+  
+</mapper>

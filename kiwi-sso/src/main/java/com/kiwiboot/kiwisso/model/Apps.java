@@ -1,5 +1,6 @@
 package com.kiwiboot.kiwisso.model;
 
+import com.kiwiframework.easycoding.base.BaseModel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
@@ -11,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @Data
 @Table(name = "sso_apps")
-public class Apps {
+public class Apps extends BaseModel{
 
     @Tolerate
     public Apps(){}
@@ -67,9 +68,9 @@ public class Apps {
 
     private Long updator;
 
-    @Column(name = "create_time")
-    private Date createTime;
-
-    @Column(name = "update_time")
-    private Date updateTime;
+//    @Column(name = "create_time")
+//    private Date createTime;
+//
+//    @Column(name = "update_time")
+//    private Date updateTime;
 }

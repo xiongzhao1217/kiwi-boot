@@ -29,14 +29,14 @@ public class AppsController {
     @ResponseBody
     public ApiResult add(@Validated Apps apps) {
         appsService.save(apps, User.builder().build());
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.success();
     }
 
     @PostMapping(value = "/delete")
     @ResponseBody
     public ApiResult delete(@RequestParam Integer id) {
         appsService.deleteById(id);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.success();
     }
 
     @PostMapping(value = "/update")
@@ -44,14 +44,14 @@ public class AppsController {
     public ApiResult update(Apps apps) {
         Checker.notNull(apps.getId(), "应用ID不能为空");
         appsService.updateSelective(apps);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.success();
     }
 
     @GetMapping(value = "/detail")
     @ResponseBody
     public ApiResult detail(@RequestParam Integer id) {
         Apps apps = appsService.selectById(id);
-        return ResultGenerator.genSuccessResult(apps);
+        return ResultGenerator.success(apps);
     }
 
     @RequestMapping(value = "/pageList")
@@ -60,13 +60,13 @@ public class AppsController {
         PageHelper.startPage(pageBean).setOrderBy(pageBean.getOrderBy());
         List<Apps> list = appsService.queryList(query);
         PageInfo pageInfo = new PageInfo(list);
-        return ResultGenerator.genSuccessResult(pageInfo);
+        return ResultGenerator.success(pageInfo);
     }
 
     @RequestMapping(value = "/list")
     @ResponseBody
     public ApiResult list(PageBean pageBean, Apps query) {
         List<Apps> list = appsService.queryList(query);
-        return ResultGenerator.genSuccessResult(list);
+        return ResultGenerator.success(list);
     }
 }

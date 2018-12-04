@@ -33,28 +33,28 @@ public class RoleMenuRelaController {
         if (CollectionUtils.isNotEmpty(roleMenuRelaList)) {
             roleMenuRelaService.insertBatch(roleMenuRelaList);
         }
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.success();
     }
 
     @PostMapping(value = "/delete")
     @ResponseBody
     public ApiResult delete(@RequestParam Integer id) {
         roleMenuRelaService.deleteById(id);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.success();
     }
 
     @PostMapping(value = "/update")
     @ResponseBody
     public ApiResult update(RoleMenuRela roleMenuRela) {
         roleMenuRelaService.updateSelective(roleMenuRela);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.success();
     }
 
     @GetMapping(value = "/detail")
     @ResponseBody
     public ApiResult detail(@RequestParam Integer id) {
         RoleMenuRela roleMenuRela = roleMenuRelaService.selectById(id);
-        return ResultGenerator.genSuccessResult(roleMenuRela);
+        return ResultGenerator.success(roleMenuRela);
     }
 
     @GetMapping(value = "/list")
@@ -63,12 +63,12 @@ public class RoleMenuRelaController {
         PageHelper.startPage(pageBean).setOrderBy(pageBean.getOrderBy());
         List<RoleMenuRela> list = roleMenuRelaService.find(query);
         PageInfo pageInfo = new PageInfo(list);
-        return ResultGenerator.genSuccessResult(pageInfo);
+        return ResultGenerator.success(pageInfo);
     }
 
     @GetMapping(value = "/roleMenuList")
     @ResponseBody
     public ApiResult roleMenuList(Long appsId, Long roleId) {
-        return ResultGenerator.genSuccessResult(menuService.findByRoleId(appsId, roleId));
+        return ResultGenerator.success(menuService.findByRoleId(appsId, roleId));
     }
 }

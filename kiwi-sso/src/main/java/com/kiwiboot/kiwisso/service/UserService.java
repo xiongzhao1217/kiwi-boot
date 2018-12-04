@@ -1,7 +1,7 @@
 package com.kiwiboot.kiwisso.service;
 
 import com.kiwiboot.kiwisso.model.User;
-import com.kiwiboot.kiwisso.model.vo.UserVO;
+import com.kiwiboot.kiwisso.model.vo.SsoUser;
 import com.kiwiframework.easycoding.base.BaseService;
 
 import java.util.List;
@@ -38,5 +38,5 @@ public interface UserService extends BaseService<User> {
      * @param query
      * @return
      */
-    List<UserVO> findByRole(UserVO query);
+    List<SsoUser> findByRole(SsoUser query);
 }

@@ -1,14 +1,12 @@
 package com.kiwiboot.kiwisso.utils;
 
 import com.kiwiboot.kiwisso.model.User;
-import com.kiwiboot.kiwisso.model.vo.UserVO;
+import com.kiwiboot.kiwisso.model.vo.SsoUser;
 import com.kiwiframework.core.enums.ResultCode;
 import com.kiwiframework.core.exception.AppException;
 import com.kiwiframework.core.utils.CodeGenerateor;
 import io.jsonwebtoken.*;
-import org.springframework.beans.BeanUtils;
 
-import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,12 +64,12 @@ public class JwtUtils {
      * @return
      * @throws Exception
      */
-    public static UserVO parseJWT(String token){
+    public static SsoUser parseJWT(String token){
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(SECRET_KEY)
                     .parseClaimsJws(token).getBody();
-            UserVO user = new UserVO();
+            SsoUser user = new SsoUser();
             user.setId(Long.valueOf(claims.get("id").toString()));
             user.setTelephone(claims.get("telephone") + "");
             user.setEmail(claims.get("email") + "");
@@ -82,7 +80,7 @@ public class JwtUtils {
         } catch (SignatureException se) {
             throw new AppException(ResultCode.FAIL, "签名错误");
         } catch (ExpiredJwtException ee) {
-            throw new AppException(ResultCode.TOKEN_EXPRIED, "token过期");
+            throw new AppException(ResultCode.TOKEN_EXPRIED);
         }
     }
 
