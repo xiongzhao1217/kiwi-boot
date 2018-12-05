@@ -8,4 +8,9 @@ import com.kiwiframework.easycoding.base.BaseService;
  */
 public interface RoleService extends BaseService<Role> {
 
+    /**
+     * 删除角色
+     * @param id
+     */
+    void deleteRole(Long id);
 }

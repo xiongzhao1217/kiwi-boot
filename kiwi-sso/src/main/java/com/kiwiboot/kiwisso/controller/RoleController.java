@@ -32,8 +32,9 @@ public class RoleController {
 
     @PostMapping(value = "/delete")
     @ResponseBody
-    public ApiResult delete(@RequestParam Integer id) {
-        roleService.deleteById(id);
+    public ApiResult delete(@RequestParam Long id) {
+
+        roleService.deleteRole(id);
         return ResultGenerator.success();
     }
 

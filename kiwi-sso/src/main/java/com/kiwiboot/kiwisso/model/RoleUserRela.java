@@ -1,14 +1,20 @@
 package com.kiwiboot.kiwisso.model;
 
 import com.kiwiframework.easycoding.base.BaseModel;
+import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Tolerate;
 
 import java.util.Date;
 import javax.persistence.*;
 
 @Data
+@Builder
 @Table(name = "a_role_user_rela")
 public class RoleUserRela extends BaseModel{
+    @Tolerate
+    public RoleUserRela() {}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,10 +24,4 @@ public class RoleUserRela extends BaseModel{
 
     @Column(name = "user_id")
     private Long userId;
-
-//    @Column(name = "create_time")
-//    private Date createTime;
-//
-//    @Column(name = "update_time")
-//    private Date updateTime;
 }

@@ -17,7 +17,7 @@ public interface MenuService extends BaseService<Menu> {
      * @param roleId
      * @return
      */
-    List<MenuVO> findByRoleId(Long appsId, Long roleId);
+    List<MenuVO> findByRole(Long appsId, Long roleId);
 
     /**
      * 查询某用户的某应用的菜单权限

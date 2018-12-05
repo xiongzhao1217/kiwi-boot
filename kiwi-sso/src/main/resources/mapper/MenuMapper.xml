@@ -27,7 +27,7 @@
     <result column="role_id" jdbcType="BIGINT" property="roleId" />
   </resultMap>
 
-  <select id="findByRoleId" resultMap="BaseResultVOMap">
+  <select id="findByRole" resultMap="BaseResultVOMap">
     SELECT menu.*, role_menu_rela.role_id
     FROM a_menu menu
     LEFT JOIN a_role_menu_rela role_menu_rela

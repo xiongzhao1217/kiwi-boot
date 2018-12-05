@@ -69,6 +69,6 @@ public class RoleMenuRelaController {
     @GetMapping(value = "/roleMenuList")
     @ResponseBody
     public ApiResult roleMenuList(Long appsId, Long roleId) {
-        return ResultGenerator.success(menuService.findByRoleId(appsId, roleId));
+        return ResultGenerator.success(menuService.findByRole(appsId, roleId));
     }
 }

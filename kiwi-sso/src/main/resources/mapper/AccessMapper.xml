@@ -19,5 +19,19 @@
     <!-- WARNING - @mbg.generated -->
     a_access.id, a_access.pid, a_access.name, a_access.code, a_access.url, a_access.apps_id, a_access.create_time, a_access.update_time
   </sql>
+
+
+  <resultMap id="BaseResultVOMap" extends="BaseResultMap" type="com.kiwiboot.kiwisso.model.vo.AccessVO">
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+  </resultMap>
+
+  <select id="findByRole" resultMap="BaseResultVOMap">
+    SELECT access.*, role_access_rela.role_id
+    FROM a_access access
+    LEFT JOIN a_role_access_rela role_access_rela
+    ON role_access_rela.access_id = access.id
+    AND role_access_rela.role_id = #{roleId, jdbcType=BIGINT}
+    WHERE access.apps_id = #{appsId, jdbcType=BIGINT}
+  </select>
   
 </mapper>

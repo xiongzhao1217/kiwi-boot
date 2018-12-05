@@ -1,4 +1,5 @@
 package com.kiwiboot.kiwisso.controller;
+import com.kiwiboot.kiwisso.service.AccessService;
 import com.kiwiframework.easycoding.api.ApiResult;
 import com.kiwiframework.easycoding.api.ResultGenerator;
 import com.kiwiboot.kiwisso.model.RoleAccessRela;
@@ -7,6 +8,8 @@ import com.kiwiframework.easycoding.PageBean;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import javax.annotation.Resource;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -19,6 +22,9 @@ import java.util.List;
 public class RoleAccessRelaController {
     @Resource
     private RoleAccessRelaService roleAccessRelaService;
+
+    @Resource
+    private AccessService accessService;
 
     @PostMapping(value = "/add")
     @ResponseBody
@@ -48,12 +54,19 @@ public class RoleAccessRelaController {
         return ResultGenerator.success(roleAccessRela);
     }
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/roleAccessList")
     @ResponseBody
-    public ApiResult list(PageBean pageBean, RoleAccessRela query) {
-        PageHelper.startPage(pageBean).setOrderBy(pageBean.getOrderBy());
-        List<RoleAccessRela> list = roleAccessRelaService.find(query);
-        PageInfo pageInfo = new PageInfo(list);
-        return ResultGenerator.success(pageInfo);
+    public ApiResult roleAccessList(Long appsId, Long roleId) {
+        return ResultGenerator.success(accessService.findByRole(appsId, roleId));
+    }
+
+    @PostMapping(value = "/batchAdd")
+    @ResponseBody
+    public ApiResult batchAdd(Long roleId, @RequestBody List<RoleAccessRela> roleAccessRelaList) {
+        roleAccessRelaService.delete(RoleAccessRela.builder().roleId(roleId).build());
+        if (CollectionUtils.isNotEmpty(roleAccessRelaList)) {
+            roleAccessRelaService.insertBatch(roleAccessRelaList);
+        }
+        return ResultGenerator.success();
     }
 }

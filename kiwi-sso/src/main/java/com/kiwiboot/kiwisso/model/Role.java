@@ -37,10 +37,4 @@ public class Role extends BaseModel{
      */
     @Column(name = "role_desc")
     private String roleDesc;
-
-//    @Column(name = "create_time")
-//    private Date createTime;
-//
-//    @Column(name = "update_time")
-//    private Date updateTime;
 }

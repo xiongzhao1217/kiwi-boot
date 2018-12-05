@@ -14,7 +14,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * @param roleId
      * @return
      */
-    List<MenuVO> findByRoleId(@Param("appsId") Long appsId, @Param("roleId") Long roleId);
+    List<MenuVO> findByRole(@Param("appsId") Long appsId, @Param("roleId") Long roleId);
 
     /**
      * 查询某用户的某应用的菜单权限
