@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.kiwiboot.kiwisso.configurer.init.AppLoader;
 import com.kiwiboot.kiwisso.configurer.interceptor.AppHandlerInterceptorAdapter;
 import com.kiwiframework.core.tools.SpringContextHolder;
 import com.kiwiframework.easycoding.api.ApiResult;
@@ -31,7 +32,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -216,4 +216,11 @@ public class WebMvcConfiguration implements ApplicationContextAware, WebMvcConfi
     public SpringContextHolder getSpringContextHolder() {
         return new SpringContextHolder();
     }
+
+    // 初始化应用数据
+    @Bean(initMethod = "initApplication")
+    public AppLoader appInitialize() {
+        return new AppLoader();
+    }
+
 }

@@ -15,4 +15,11 @@ public interface AccessMapper extends BaseMapper<Access> {
      * @return
      */
     List<AccessVO> findByRole(@Param("appsId") Long appsId, @Param("roleId") Long roleId);
+
+    /**
+     * 根据应用主键查询应用所有的角色拥有的权限
+     * @param appsId
+     * @return
+     */
+    List<AccessVO> findAllRoleAccess(Long appsId);
 }

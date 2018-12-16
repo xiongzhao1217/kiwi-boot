@@ -33,5 +33,13 @@
     AND role_access_rela.role_id = #{roleId, jdbcType=BIGINT}
     WHERE access.apps_id = #{appsId, jdbcType=BIGINT}
   </select>
-  
+
+  <select id="findAllRoleAccess" resultMap="BaseResultVOMap">
+    SELECT access.url, role_acc.role_id FROM a_access access
+    LEFT JOIN a_role_access_rela role_acc
+    ON access.id = role_acc.access_id
+    WHERE access.url is not NULL
+    AND access.apps_id = #{appsId, jdbcType=BIGINT}
+  </select>
+
 </mapper>

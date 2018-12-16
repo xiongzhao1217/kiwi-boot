@@ -1,8 +1,12 @@
 package com.kiwiboot.kiwisso.service.impl;
 
 import com.kiwiboot.kiwisso.dao.UserMapper;
+import com.kiwiboot.kiwisso.model.RoleMenuRela;
+import com.kiwiboot.kiwisso.model.RoleUserRela;
 import com.kiwiboot.kiwisso.model.User;
 import com.kiwiboot.kiwisso.model.vo.SsoUser;
+import com.kiwiboot.kiwisso.service.RoleMenuRelaService;
+import com.kiwiboot.kiwisso.service.RoleUserRelaService;
 import com.kiwiboot.kiwisso.service.UserService;
 import com.kiwiboot.kiwisso.utils.JwtUtils;
 import com.kiwiframework.core.enums.ResultCode;
@@ -11,12 +15,14 @@ import com.kiwiframework.core.utils.CodeGenerateor;
 import com.kiwiframework.core.utils.encryption.MD5Helper;
 import com.kiwiframework.easycoding.base.AbstractService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created on 2018/11/04.
@@ -27,6 +33,9 @@ import java.util.List;
 public class UserServiceImpl extends AbstractService<User> implements UserService {
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private RoleUserRelaService roleUserRelaService;
 
     /**
      * 默认头像
@@ -44,8 +53,19 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
         if (!user.getPasswd().equals(MD5Helper.getMD5Str(loginUser.getPasswd() + user.getPasswdSalt()))) {
             throw new AppException(ResultCode.FAIL, "账号或密码错误");
         }
+        // 获取用户所有的角色
+        List<RoleUserRela> roleUserRelaList = roleUserRelaService.find(
+                RoleUserRela.builder()
+                .userId(user.getId())
+                .build());
+        SsoUser ssoUser = new SsoUser();
+        BeanUtils.copyProperties(user, ssoUser);
+        ssoUser.setRoleIds(roleUserRelaList
+                .stream()
+                .map(roleUserRela -> roleUserRela.getRoleId() + "")
+                .collect(Collectors.toSet()));
         // 创建jwt
-        return JwtUtils.createJWT(user);
+        return JwtUtils.createJWT(ssoUser);
     }
 
     @Override

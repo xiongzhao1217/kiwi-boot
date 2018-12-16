@@ -36,13 +36,7 @@ public class AccessController {
 
     @PostMapping(value = "/update")
     public ApiResult update(Access access) {
-        accessService.updateSelective(access);
-        return ResultGenerator.success(access);
-    }
-
-    @GetMapping(value = "/detail")
-    public ApiResult detail(@RequestParam Integer id) {
-        Access access = accessService.selectById(id);
+        accessService.update(access);
         return ResultGenerator.success(access);
     }
 

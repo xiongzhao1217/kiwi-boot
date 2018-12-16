@@ -24,4 +24,9 @@ public class AccessServiceImpl extends AbstractService<Access> implements Access
     public List<AccessVO> findByRole(Long appsId, Long roleId) {
         return accessMapper.findByRole(appsId, roleId);
     }
+
+    @Override
+    public List<AccessVO> findAllRoleAccess(Long appsId) {
+        return accessMapper.findAllRoleAccess(appsId);
+    }
 }

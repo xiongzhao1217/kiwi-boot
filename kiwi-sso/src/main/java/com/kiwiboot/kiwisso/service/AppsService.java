@@ -24,4 +24,11 @@ public interface AppsService extends BaseService<Apps> {
      * @return
      */
     List<Apps> queryList (Apps query);
+
+    /**
+     * 根据appId查询应用信息
+     * @param appId
+     * @return
+     */
+    Apps selectByAppId(String appId);
 }

@@ -4,8 +4,6 @@ import com.kiwiframework.easycoding.base.BaseModel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
-
-import java.util.Date;
 import javax.persistence.*;
 
 @Data

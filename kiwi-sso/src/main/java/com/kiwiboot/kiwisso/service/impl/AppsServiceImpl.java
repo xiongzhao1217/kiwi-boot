@@ -41,4 +41,9 @@ public class AppsServiceImpl extends AbstractService<Apps> implements AppsServic
     public List<Apps> queryList(Apps query) {
         return appsMapper.queryList(query);
     }
+
+    @Override
+    public Apps selectByAppId(String appId) {
+        return this.selectBy("appId", appId);
+    }
 }

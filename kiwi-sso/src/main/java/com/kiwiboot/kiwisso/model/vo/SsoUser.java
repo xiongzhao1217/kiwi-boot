@@ -5,6 +5,7 @@ import com.kiwiboot.kiwisso.model.User;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author xiongzhao1 by 2018-11-25 10:31
@@ -26,4 +27,9 @@ public class SsoUser extends User {
      * 用户拥有的菜单
      */
     private List<Menu> menuList;
+
+    /**
+     * 用户拥有的角色集合
+     */
+    private Set<String> roleIds;
 }
